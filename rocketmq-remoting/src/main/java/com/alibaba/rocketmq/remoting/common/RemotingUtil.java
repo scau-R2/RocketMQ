@@ -114,6 +114,9 @@ public class RemotingUtil {
             ArrayList<String> ipv6Result = new ArrayList<String>();
             while (enumeration.hasMoreElements()) {
                 final NetworkInterface networkInterface = enumeration.nextElement();
+                if (networkInterface.getName().toLowerCase().startsWith("vmnet")) {
+                    continue;
+                }
                 final Enumeration<InetAddress> en = networkInterface.getInetAddresses();
                 while (en.hasMoreElements()) {
                     final InetAddress address = en.nextElement();
@@ -156,6 +159,9 @@ public class RemotingUtil {
         return null;
     }
 
+    public static void main(String[] args) {
+        System.out.println(RemotingUtil.getLocalAddress());
+    }
 
     public static String normalizeHostAddress(final InetAddress localHost) {
         if (localHost instanceof Inet6Address) {
