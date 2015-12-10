@@ -16,12 +16,14 @@
 package com.alibaba.rocketmq.example.simple;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.alibaba.rocketmq.client.consumer.DefaultMQPullConsumer;
 import com.alibaba.rocketmq.client.consumer.PullResult;
 import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.common.message.MessageExt;
 import com.alibaba.rocketmq.common.message.MessageQueue;
 
 
@@ -33,11 +35,11 @@ public class PullConsumer {
 
 
     public static void main(String[] args) throws MQClientException {
-        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("please_rename_unique_group_name_5");
-
+        DefaultMQPullConsumer consumer = new DefaultMQPullConsumer("pullConsumer");
+        consumer.setNamesrvAddr("10.31.90.114:9876");
         consumer.start();
 
-        Set<MessageQueue> mqs = consumer.fetchSubscribeMessageQueues("TopicTest");
+        Set<MessageQueue> mqs = consumer.fetchSubscribeMessageQueues("TopicTest-2");
         for (MessageQueue mq : mqs) {
             System.out.println("Consume from the queue: " + mq);
             SINGLE_MQ: while (true) {
@@ -48,7 +50,11 @@ public class PullConsumer {
                     putMessageQueueOffset(mq, pullResult.getNextBeginOffset());
                     switch (pullResult.getPullStatus()) {
                     case FOUND:
-                        // TODO
+                        List<MessageExt> list = pullResult.getMsgFoundList();
+                        for (MessageExt messageExt : list) {
+                            System.out.println(new String(messageExt.getBody()));
+                        }
+                        System.out.println();
                         break;
                     case NO_MATCHED_MSG:
                         break;

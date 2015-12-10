@@ -6,17 +6,20 @@ import com.alibaba.rocketmq.client.consumer.PullResult;
 import com.alibaba.rocketmq.client.consumer.PullTaskCallback;
 import com.alibaba.rocketmq.client.consumer.PullTaskContext;
 import com.alibaba.rocketmq.client.exception.MQClientException;
+import com.alibaba.rocketmq.common.message.MessageExt;
 import com.alibaba.rocketmq.common.message.MessageQueue;
 import com.alibaba.rocketmq.common.protocol.heartbeat.MessageModel;
+
+import java.util.List;
 
 
 public class PullScheduleService {
 
     public static void main(String[] args) throws MQClientException {
         final MQPullConsumerScheduleService scheduleService = new MQPullConsumerScheduleService("GroupName1");
-
+        scheduleService.getDefaultMQPullConsumer().setNamesrvAddr("10.31.90.114:9876");
         scheduleService.setMessageModel(MessageModel.CLUSTERING);
-        scheduleService.registerPullTaskCallback("TopicTest1", new PullTaskCallback() {
+        scheduleService.registerPullTaskCallback("TopicTest-2", new PullTaskCallback() {
 
             @Override
             public void doPullTask(MessageQueue mq, PullTaskContext context) {
@@ -27,10 +30,14 @@ public class PullScheduleService {
                     if (offset < 0)
                         offset = 0;
 
-                    PullResult pullResult = consumer.pull(mq, "*", offset, 32);
-                    System.out.println(offset + "\t" + mq + "\t" + pullResult);
+                    PullResult pullResult = consumer.pullBlockIfNotFound(mq, "*", offset, 32);
+//                    System.out.println(offset + "\t" + mq + "\t" + pullResult);
                     switch (pullResult.getPullStatus()) {
                     case FOUND:
+                        List<MessageExt> list = pullResult.getMsgFoundList();
+                        for (MessageExt msg : list) {
+                            System.out.println(new String(msg.getBody()));
+                        }
                         break;
                     case NO_MATCHED_MSG:
                         break;

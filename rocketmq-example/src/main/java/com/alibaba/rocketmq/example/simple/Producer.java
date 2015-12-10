@@ -30,7 +30,7 @@ public class Producer {
          * 因为服务器会回查这个Group下的任意一个Producer
          */
         DefaultMQProducer producer = new DefaultMQProducer("ProducerGroupName");
-
+        producer.setNamesrvAddr("10.31.90.114:9876");
         /**
          * Producer对象在使用之前必须要调用start初始化，初始化一次即可<br>
          * 注意：切记不可以在每次发送消息时，都调用start方法
@@ -43,13 +43,13 @@ public class Producer {
          * 例如消息写入Master成功，但是Slave不成功，这种情况消息属于成功，但是对于个别应用如果对消息可靠性要求极高，<br>
          * 需要对这种情况做处理。另外，消息可能会存在发送失败的情况，失败重试由应用来处理。
          */
-        for (int i = 0; i < 1; i++)
+        for (int i = 0; i < 10; i++)
             try {
                 {
-                    Message msg = new Message("TopicTest1",// topic
+                    Message msg = new Message("TopicTest-2",// topic
                         "TagA",// tag
                         "OrderID188",// key
-                        ("Hello MetaQ").getBytes());// body
+                        ("Hello MetaQ-" + i).getBytes());// body
                     SendResult sendResult = producer.send(msg);
                     System.out.println(sendResult);
                 }
