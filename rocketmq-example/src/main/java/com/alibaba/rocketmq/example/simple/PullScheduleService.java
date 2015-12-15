@@ -1,10 +1,6 @@
 package com.alibaba.rocketmq.example.simple;
 
-import com.alibaba.rocketmq.client.consumer.MQPullConsumer;
-import com.alibaba.rocketmq.client.consumer.MQPullConsumerScheduleService;
-import com.alibaba.rocketmq.client.consumer.PullResult;
-import com.alibaba.rocketmq.client.consumer.PullTaskCallback;
-import com.alibaba.rocketmq.client.consumer.PullTaskContext;
+import com.alibaba.rocketmq.client.consumer.*;
 import com.alibaba.rocketmq.client.exception.MQClientException;
 import com.alibaba.rocketmq.common.message.MessageExt;
 import com.alibaba.rocketmq.common.message.MessageQueue;
@@ -33,19 +29,19 @@ public class PullScheduleService {
                     PullResult pullResult = consumer.pullBlockIfNotFound(mq, "*", offset, 32);
 //                    System.out.println(offset + "\t" + mq + "\t" + pullResult);
                     switch (pullResult.getPullStatus()) {
-                    case FOUND:
-                        List<MessageExt> list = pullResult.getMsgFoundList();
-                        for (MessageExt msg : list) {
-                            System.out.println(new String(msg.getBody()));
-                        }
-                        break;
-                    case NO_MATCHED_MSG:
-                        break;
-                    case NO_NEW_MSG:
-                    case OFFSET_ILLEGAL:
-                        break;
-                    default:
-                        break;
+                        case FOUND:
+                            List<MessageExt> list = pullResult.getMsgFoundList();
+                            for (MessageExt msg : list) {
+                                System.out.println(new String(msg.getBody()));
+                            }
+                            break;
+                        case NO_MATCHED_MSG:
+                            break;
+                        case NO_NEW_MSG:
+                        case OFFSET_ILLEGAL:
+                            break;
+                        default:
+                            break;
                     }
 
                     // 存储Offset，客户端每隔5s会定时刷新到Broker
@@ -53,8 +49,7 @@ public class PullScheduleService {
 
                     // 设置再过100ms后重新拉取
                     context.setPullNextDelayTimeMillis(100);
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

@@ -142,10 +142,14 @@ public class ClientConfig {
 
     @Override
     public String toString() {
-        return "ClientConfig [namesrvAddr=" + namesrvAddr + ", clientIP=" + clientIP + ", instanceName="
-                + instanceName + ", clientCallbackExecutorThreads=" + clientCallbackExecutorThreads
-                + ", pollNameServerInteval=" + pollNameServerInteval + ", heartbeatBrokerInterval="
-                + heartbeatBrokerInterval + ", persistConsumerOffsetInterval="
-                + persistConsumerOffsetInterval + "]";
+        return "ClientConfig ["
+                + "\nnamesrvAddr=" + namesrvAddr
+                + "\n, clientIP=" + clientIP
+                + "\n, instanceName=" + instanceName
+                + "\n, clientCallbackExecutorThreads=" + clientCallbackExecutorThreads
+                + "\n, pollNameServerInteval=" + pollNameServerInteval
+                + "\n, heartbeatBrokerInterval=" + heartbeatBrokerInterval
+                + "\n, persistConsumerOffsetInterval=" + persistConsumerOffsetInterval
+                + "\n]";
     }
 }

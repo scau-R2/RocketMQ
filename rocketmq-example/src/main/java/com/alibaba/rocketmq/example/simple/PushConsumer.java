@@ -38,17 +38,17 @@ public class PushConsumer {
          * 注意：ConsumerGroupName需要由应用来保证唯一
          */
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("CID_001");
-
+        consumer.setNamesrvAddr("10.31.90.114:9876");
         /**
          * 订阅指定topic下tags分别等于TagA或TagC或TagD
          */
-        consumer.subscribe("TopicTest1", "TagA || TagC || TagD");
+        consumer.subscribe("TopicTest-2", "TagA || TagC || TagD");
         /**
          * 订阅指定topic下所有消息<br>
          * 注意：一个consumer对象可以订阅多个topic
          */
-        consumer.subscribe("TopicTest2", "*");
-        consumer.subscribe("TopicTest3", "*");
+//        consumer.subscribe("TopicTest2", "*");
+//        consumer.subscribe("TopicTest3", "*");
 
         /**
          * 设置Consumer第一次启动是从队列头部开始消费还是队列尾部开始消费<br>
@@ -63,23 +63,21 @@ public class PushConsumer {
              */
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs,
-                    ConsumeConcurrentlyContext context) {
-                System.out.println(Thread.currentThread().getName() + " Receive New Messages: " + msgs);
+                                                            ConsumeConcurrentlyContext context) {
+//                System.out.println(Thread.currentThread().getName() + " Receive New Messages: " + msgs);
 
+                System.out.println(Thread.currentThread().getName() + "=========" + msgs.size());
                 MessageExt msg = msgs.get(0);
                 if (msg.getTopic().equals("TopicTest1")) {
                     // 执行TopicTest1的消费逻辑
                     if (msg.getTags() != null && msg.getTags().equals("TagA")) {
                         // 执行TagA的消费
-                    }
-                    else if (msg.getTags() != null && msg.getTags().equals("TagC")) {
+                    } else if (msg.getTags() != null && msg.getTags().equals("TagC")) {
                         // 执行TagC的消费
-                    }
-                    else if (msg.getTags() != null && msg.getTags().equals("TagD")) {
+                    } else if (msg.getTags() != null && msg.getTags().equals("TagD")) {
                         // 执行TagD的消费
                     }
-                }
-                else if (msg.getTopic().equals("TopicTest2")) {
+                } else if (msg.getTopic().equals("TopicTest2")) {
                     // 执行TopicTest2的消费逻辑
                 }
 
@@ -87,6 +85,7 @@ public class PushConsumer {
             }
         });
 
+        System.out.println(consumer);
         /**
          * Consumer对象在使用之前必须要调用start初始化，初始化一次即可<br>
          */

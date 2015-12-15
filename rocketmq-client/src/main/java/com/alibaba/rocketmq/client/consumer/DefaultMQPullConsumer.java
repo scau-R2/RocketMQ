@@ -371,4 +371,20 @@ public class DefaultMQPullConsumer extends ClientConfig implements MQPullConsume
         this.unitMode = isUnitMode;
     }
 
+    @Override
+    public String toString() {
+        return "DefaultMQPullConsumer{" +
+                "\ndefaultMQPullConsumerImpl=" + defaultMQPullConsumerImpl +
+                "\n, consumerGroup='" + consumerGroup + '\'' +
+                "\n, brokerSuspendMaxTimeMillis=" + brokerSuspendMaxTimeMillis +
+                "\n, consumerTimeoutMillisWhenSuspend=" + consumerTimeoutMillisWhenSuspend +
+                "\n, consumerPullTimeoutMillis=" + consumerPullTimeoutMillis +
+                "\n, messageModel=" + messageModel +
+                "\n, messageQueueListener=" + messageQueueListener +
+                "\n, offsetStore=" + offsetStore +
+                "\n, registerTopics=" + registerTopics +
+                "\n, allocateMessageQueueStrategy=" + allocateMessageQueueStrategy +
+                "\n, unitMode=" + unitMode +
+                "\n} and super is:" + super.toString();
+    }
 }

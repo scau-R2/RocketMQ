@@ -471,4 +471,29 @@ public class DefaultMQPushConsumer extends ClientConfig implements MQPushConsume
     public void setAdjustThreadPoolNumsThreshold(long adjustThreadPoolNumsThreshold) {
         this.adjustThreadPoolNumsThreshold = adjustThreadPoolNumsThreshold;
     }
+
+    @Override
+    public String toString() {
+        return "DefaultMQPushConsumer{" +
+                "\ndefaultMQPushConsumerImpl=" + defaultMQPushConsumerImpl +
+                "\n, consumerGroup='" + consumerGroup + '\'' +
+                "\n, messageModel=" + messageModel +
+                "\n, consumeFromWhere=" + consumeFromWhere +
+                "\n, consumeTimestamp='" + consumeTimestamp + '\'' +
+                "\n, allocateMessageQueueStrategy=" + allocateMessageQueueStrategy +
+                "\n, subscription=" + subscription +
+                "\n, messageListener=" + messageListener +
+                "\n, offsetStore=" + offsetStore +
+                "\n, consumeThreadMin=" + consumeThreadMin +
+                "\n, consumeThreadMax=" + consumeThreadMax +
+                "\n, adjustThreadPoolNumsThreshold=" + adjustThreadPoolNumsThreshold +
+                "\n, consumeConcurrentlyMaxSpan=" + consumeConcurrentlyMaxSpan +
+                "\n, pullThresholdForQueue=" + pullThresholdForQueue +
+                "\n, pullInterval=" + pullInterval +
+                "\n, consumeMessageBatchMaxSize=" + consumeMessageBatchMaxSize +
+                "\n, pullBatchSize=" + pullBatchSize +
+                "\n, postSubscriptionWhenPull=" + postSubscriptionWhenPull +
+                "\n, unitMode=" + unitMode +
+                "\n} and super is:\n" + super.toString();
+    }
 }

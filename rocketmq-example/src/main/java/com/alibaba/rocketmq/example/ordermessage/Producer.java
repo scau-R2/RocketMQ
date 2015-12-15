@@ -34,7 +34,9 @@ import com.alibaba.rocketmq.remoting.exception.RemotingException;
 public class Producer {
     public static void main(String[] args) {
         try {
-            MQProducer producer = new DefaultMQProducer("please_rename_unique_group_name");
+            DefaultMQProducer producer = new DefaultMQProducer("OrderProducer");
+            producer.setNamesrvAddr("10.31.90.114:9876");
+
 
             producer.start();
 
@@ -44,7 +46,7 @@ public class Producer {
                 // 订单ID相同的消息要有序
                 int orderId = i % 10;
                 Message msg =
-                        new Message("TopicTestjjj", tags[i % tags.length], "KEY" + i,
+                        new Message("OrderTopic", tags[i % tags.length], "KEY" + i,
                             ("Hello RocketMQ " + i).getBytes());
 
                 SendResult sendResult = producer.send(msg, new MessageQueueSelector() {
